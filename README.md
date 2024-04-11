@@ -1,4 +1,4 @@
-# Projeto Tgid
+# API de transação de empresas e clientes.
 * Projeto API REST com Spring Boot.
 
 # UML do projeto:
