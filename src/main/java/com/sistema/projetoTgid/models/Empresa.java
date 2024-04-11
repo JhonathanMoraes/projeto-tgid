@@ -1,10 +1,6 @@
 
 package com.sistema.projetoTgid.models;
 
-import com.sistema.projetoTgid.models.decorator.SemTaxa;
-import com.sistema.projetoTgid.models.decorator.Taxa;
-import com.sistema.projetoTgid.models.decorator.TaxaFixa;
-import com.sistema.projetoTgid.models.decorator.TaxaPorcentagem;
 import com.sistema.projetoTgid.models.enums.TipoTaxa;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,14 +20,14 @@ public class Empresa {
     @Column(columnDefinition = "double default 0.0")
     private double saldo;
     private TipoTaxa tipoTaxa;
-    private double valorTaxa;
+    private double quantiaTaxa;
     
     public void depositar(double valor) {
-        valor = aplicarTaxa(valor);
-        saldo += valor;
+        valor -= aplicarTaxa(valor);
+    	saldo += valor;
     }
     public void sacar(double valor) {
-        valor = aplicarTaxa(valor);
+        valor += aplicarTaxa(valor);
         if (saldo >= valor) {
             saldo -= valor;
         } else {
@@ -40,22 +36,18 @@ public class Empresa {
     }
     
     public double aplicarTaxa(double valor){
-        Taxa taxa = new SemTaxa(valor);
-        switch (getTipoTaxa()) {
+        switch (tipoTaxa) {
             case SEM_TAXA -> {
-                return taxa.taxaSistema();
+                return Taxa.semTaxa();
             }
             case FIXO -> {
-                taxa = new TaxaFixa(taxa, getValorTaxa());
-                return taxa.taxaSistema();
+            	return Taxa.taxaFixa(quantiaTaxa);
             }
             case PORCENTAGEM -> {
-                taxa = new TaxaPorcentagem(taxa, getValorTaxa());
-                return taxa.taxaSistema();
+            	return Taxa.taxaPorcentagem(valor, quantiaTaxa);
             }
             default -> throw new AssertionError();
-        }
-        
+        }       
     }
 
     // Getters e Setters
@@ -96,12 +88,12 @@ public class Empresa {
         this.tipoTaxa = tipoTaxa;
     }
 
-    public double getValorTaxa() {
-        return valorTaxa;
+    public double getQuantiaTaxa() {
+        return quantiaTaxa;
     }
 
-    public void setValorTaxa(double valorTaxa) {
-        this.valorTaxa = valorTaxa;
+    public void setQuantiaTaxa(double quantiaTaxa) {
+        this.quantiaTaxa = quantiaTaxa;
     }
     
 }

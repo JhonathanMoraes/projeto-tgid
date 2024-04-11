@@ -3,45 +3,40 @@ package com.sistema.projetoTgid.models;
 
 import com.sistema.projetoTgid.controllers.services.EmailServices;
 import com.sistema.projetoTgid.models.enums.TipoTransacao;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 public class Transacao {
     
-    @ManyToOne
-    @JoinColumn(name = "id_empresa")
-    private Empresa empresa;
-    @ManyToOne
-    @JoinColumn(name = "id_cliente")
-    private Cliente cliente;
+    private Long idEmpresa;
+    private Long idCliente;
     private TipoTransacao tipoTransacao;
     private double valor;
     
-    public void callBack(EmailServices service) {
-        String body = "Tipo de transação: " + getTipoTransacao().toString() + " Com valor: " + getValor();
-        Email email = new Email(getEmpresa().getEmail(), "Transação realizada", body);
-        service.sendEmail(email);
-        email = new Email(getCliente().getEmail(), "Transação realizada", body);
-        service.sendEmail(email);
-        System.out.println("Email enviado");
+    
+    public void callBack(Empresa empresa, Cliente cliente) {
+        String body = "Transação de " + getTipoTransacao() +" realizado por " + cliente.getEmail() + " no valor de " + getValor() + " para a empresa: " + empresa.getCnpj();
+        
+        EmailServices.sendEmail(empresa.getEmail(), "Transação realizada!", body);
+        EmailServices.sendEmail(cliente.getEmail(), "Transação realizada!", body);
+        
+        System.out.println("Email enviado. Cliente ID("+ getIdCliente() +"), Empresa ID(" + getIdEmpresa() + ")");
     }
     
     // Getters e Setters
 
-    public Empresa getEmpresa() {
-        return empresa;
+    public Long getIdEmpresa() {
+        return idEmpresa;
     }
 
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
+    public void setIdEmpresa(Long idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Long getIdCliente() {
+        return idCliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
     }
 
     public TipoTransacao getTipoTransacao() {

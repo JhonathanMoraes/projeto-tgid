@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,7 @@ public class EmpresaController {
         return ResponseEntity.ok().body(service.cadastrar(empresa));
     }
     
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Empresa> atualizarEmpresa(@RequestBody Empresa empresa, @PathVariable Long id){
         return ResponseEntity.ok().body(service.atualizar(empresa, id));
     }

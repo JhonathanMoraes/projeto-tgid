@@ -4,8 +4,8 @@ package com.sistema.projetoTgid.models.enums;
 
 public enum TipoTransacao {
 
-    DEPÓSITO(1),
-    SAQUE(2);
+    DEPÓSITO(0),
+    SAQUE(1);
     
     private final int codigo;
 

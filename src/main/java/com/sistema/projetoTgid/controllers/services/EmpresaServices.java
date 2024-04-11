@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmpresaServices {
-
+	
     @Autowired
     private EmpresaRepository repository;
     
@@ -38,12 +38,15 @@ public class EmpresaServices {
             atualizarDados(entity, empresa);
             return repository.save(entity);
         } catch (EntityNotFoundException ex) {
+        	System.out.println("[ ERRO ] - " + ex.getMessage());
             throw new ResourceNotFoundException(id);
         }
     }
     public void atualizarDados(Empresa entity, Empresa empresa) {
         entity.setCnpj(empresa.getCnpj());
         entity.setEmail(empresa.getEmail());
+        entity.setTipoTaxa(empresa.getTipoTaxa());
+        entity.setQuantiaTaxa(empresa.getQuantiaTaxa());
     }
     
     public void deletar(Long id) {

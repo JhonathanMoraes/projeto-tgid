@@ -4,9 +4,9 @@ package com.sistema.projetoTgid.models.enums;
 
 public enum TipoTaxa {
     
-    SEM_TAXA(1),
-    FIXO(2),
-    PORCENTAGEM(3);
+    SEM_TAXA(0),
+    FIXO(1),
+    PORCENTAGEM(2);
 
     private final int codigo;
 
